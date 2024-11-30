@@ -2,7 +2,9 @@ const obtenerPaises = async () => {
     try {
       const response = await fetch('https://restcountries.com/v3/all');
       const data = await response.json();
-      
+  
+      console.log(data);  // Verifica la respuesta de la API
+  
       const paisesOrdenados = data.sort((a, b) => {
         const nombreA = a.name.common.toUpperCase();
         const nombreB = b.name.common.toUpperCase();
@@ -20,6 +22,7 @@ const obtenerPaises = async () => {
     container.innerHTML = '';
   
     paises.forEach(pais => {
+      console.log(pais.flags);  // Verifica que el objeto flags está disponible y correcto
       const flagDiv = document.createElement('div');
       flagDiv.classList.add('flag');
       flagDiv.innerHTML = `
@@ -42,7 +45,7 @@ const obtenerPaises = async () => {
       <img src="${pais.flags?.svg || pais.flags?.png}" alt="Bandera de ${pais.name.common}" width="100%" />
       <p><strong>Capital:</strong> ${pais.capital ? pais.capital[0] : 'N/A'}</p>
       <p><strong>Población:</strong> ${pais.population.toLocaleString()}</p>
-      <p><strong>Lado de la carretera:</strong> ${pais.car.dDriveOn ? 'Derecha' : 'Izquierda'}</p>
+      <p><strong>Lado de la carretera:</strong> ${pais.car?.dDriveOn ? 'Derecha' : 'Izquierda'}</p>
     `;
     
     modal.style.display = 'flex';
@@ -56,4 +59,5 @@ const obtenerPaises = async () => {
   document.getElementById('closeBtn').addEventListener('click', cerrarModal);
   
   window.onload = obtenerPaises;
+  
   
